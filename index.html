@@ -3,64 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EyeHealth Assessment - Powered by NahaInc AI</title>
-    <style>
-        /* Existing CSS here */
-    </style>
+    <title>Eye Health Assessment</title>
 </head>
 <body>
-    <div class="background-animation"></div>
-    <button class="theme-toggle" aria-label="Toggle theme">🌓</button>
+    <h1>Eye Health Assessment</h1>
+    <p>Complete this assessment to receive personalized eye care recommendations.</p>
 
-    <div class="container">
-        <header>
-            <h1>EyeHealth Assessment</h1>
-            <p>Complete this assessment to receive personalized eye care recommendations</p>
-        </header>
+    <form action="your_form_action_url_here" method="POST">
+        <!-- New fields added -->
+        <label for="name">Name and Surname:</label>
+        <input type="text" id="name" name="name" required><br><br>
 
-        <!-- New Form Fields Section -->
-        <form id="userInfoForm">
-            <label for="name">Name and Surname:</label>
-            <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required><br><br>
 
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required><br><br>
+        <!-- Your existing fields go here, for example: -->
+        <label for="cell">Cell Number:</label>
+        <input type="tel" id="cell" name="cell" required><br><br>
 
-            <label for="cellNumber">Cell Number:</label>
-            <input type="tel" id="cellNumber" name="cellNumber" required><br><br>
-        </form>
+        <!-- Any additional form fields should remain unchanged -->
 
-        <div class="progress-bar">
-            <div class="progress"></div>
-        </div>
+        <button type="submit">Schedule Your Eye Exam</button>
+    </form>
 
-        <div id="questionnaire"></div>
-
-        <div class="results" id="results">
-            <h2>Your Personalized Eye Health Assessment</h2>
-            <div class="loading-animation"></div>
-            <div class="recommendation" id="recommendation"></div>
-            <button class="cta-button" onclick="redirectToForm()">Schedule Your Eye Exam</button>
-        </div>
-    </div>
-
-    <footer>
-        Powered By: NahaInc AI
-    </footer>
-
-    <script>
-        // Existing JavaScript code here...
-
-        // Redirect to mail for scheduling exam
-        function redirectToForm() {
-            window.location.href = "mailto:naha.thabiso@gmail.com?subject=Eye Exam Schedule Request";
-        }
-
-        // Initialize
-        document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
-        initQuestionnaire();
-
-        // Existing background animation function...
-    </script>
+    <p>Powered By: NahaInc AI</p>
 </body>
 </html>
