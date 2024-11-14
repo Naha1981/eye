@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeHealth Assessment - Powered by NahaInc AI</title>
+    <style>
+        :root {
+            --primary: #2B87FF;
+            --secondary: #F0F4F8;
+            --accent: #4CAF50;
+            --text: #333;
+            --background: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3B82F6;
+            --secondary: #2D2D2D;
+            --accent: #4CAF50;
+            --text: #ffffff;
+            --background: #1A1A1A;
+            --shadow: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(45, 45, 45, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 8px 8px 16px var(--shadow),
+                       -8px -8px 16px var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: none;
+            cursor: pointer;
+            box-shadow: 4px 4px 8px var(--shadow),
+                       -4px -4px 8px var(--shadow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 5px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        .question-container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .question-container.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .option.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+        }
+
+        .recommendation {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .cta-button {
+            background: var(--accent);
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            background: var(--card-bg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading-animation {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <button class="theme-toggle" aria-label="Toggle theme">🌓</button>
+
+    <div class="container">
+        <header>
+            <h1>EyeHealth Assessment</h1>
+            <p>Complete this assessment to receive personalized eye care recommendations</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+        <div id="questionnaire"></div>
+
+        <div class="results" id="results">
+            <h2>Your Personalized Eye Health Assessment</h2>
+            <div class="loading-animation"></div>
+            <div class="recommendation" id="recommendation"></div>
+            <button class="cta-button" onclick="redirectToForm()">Schedule Your Eye Exam</button>
+        </div>
+    </div>
+
+    <footer>
+        Powered By: NahaInc AI
+    </footer>
+
+    <script>
+        // Questions data
+        const questions = [
+            {
+                question: "How often do you experience eye strain or discomfort?",
+                options: ["Rarely", "Sometimes", "Often", "Always"]
+            },
+            {
+                question: "Do you currently wear prescription glasses or contact lenses?",
+                options: ["Yes, glasses", "Yes, contacts", "Yes, both", "No"]
+            },
+            {
+                question: "How would you rate your current vision quality?",
+                options: ["Excellent", "Good", "Fair", "Poor"]
+            },
+            {
+                question: "Have you ever had an eye exam in the past year?",
+                options: ["Yes", "No"]
+            },
+            {
+                question: "Do you experience any of the following symptoms? (Select all that apply)",
+                options: ["Blurred vision", "Headaches", "Dry eyes", "Double vision", "None of the above"],
+                multiple: true
+            },
+            {
+                question: "How important is eye health to you on a scale of 1-10?",
+                options: ["1-3 (Not very important)", "4-6 (Somewhat important)", "7-9 (Very important)", "10 (Extremely important)"]
+            },
+            {
+                question: "Do you spend more than 2 hours a day looking at screens?",
+                options: ["Yes", "No"]
+            },
+            {
+                question: "Have you ever considered LASIK or other vision correction surgery?",
+                options: ["Yes", "No"]
+            },
+            {
+                question: "Do you have a family history of eye diseases?",
+                options: ["Yes", "No"]
+            },
+            {
+                question: "Would you be interested in learning more about eye care tips?",
+                options: ["Yes", "No"]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+        let selectedOptions = new Set();
+
+        // Initialize the questionnaire
+        function initQuestionnaire() {
+            const questionnaireDiv = document.getElementById('questionnaire');
+            renderQuestion();
+            updateProgress();
+        }
+
+        // Render current question
+        function renderQuestion() {
+            const questionData = questions[currentQuestion];
+            const questionnaireDiv = document.getElementById('questionnaire');
+            
+            const questionHTML = `
+                <div class="question-container active">
+                    <div class="question">
+                        <h3>${questionData.question}</h3>
+                        <div class="options">
+                            ${questionData.options.map((option, index) => `
+                                <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        ${currentQuestion > 0 ? '<button onclick="previousQuestion()">Previous</button>' : ''}
+                        <button onclick="nextQuestion()" ${selectedOptions.size === 0 ? 'disabled' : ''}>
+                            ${currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            questionnaireDiv.innerHTML = questionHTML;
+        }
+
+        // Handle option selection
+        function selectOption(index) {
+            const questionData = questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            if (questionData.multiple) {
+                options[index].classList.toggle('selected');
+                if (selectedOptions.has(index)) {
+                    selectedOptions.delete(index);
+                } else {
+                    selectedOptions.add(index);
+                }
+            } else {
+                options.forEach(option => option.classList.remove('selected'));
+                options[index].classList.add('selected');
+                selectedOptions.clear();
+                selectedOptions.add(index);
+            }
+
+            document.querySelector('.navigation button:last-child').disabled = selectedOptions.size === 0;
+        }
+
+        // Navigation functions
+        function nextQuestion() {
+            answers[currentQuestion] = Array.from(selectedOptions);
+            selectedOptions.clear();
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+            updateProgress();
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedOptions = new Set(answers[currentQuestion] || []);
+                renderQuestion();
+                updateProgress();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.querySelector('.progress').style.width = `${progress}%`;
+        }
+
+        // Generate and show results
+        function showResults() {
+            document.getElementById('questionnaire').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            setTimeout(() => {
+                const recommendation = generateRecommendation();
+                document.querySelector('.loading-animation').style.display = 'none';
+                document.getElementById('recommendation').innerHTML = recommendation;
+                document.getElementById('recommendation').classList.add('fade-in');
+            }, 1500);
+        }
+
+        // Generate personalized recommendation
+        function generateRecommendation() {
+            let recommendation = '<h3>Your Eye Health Analysis</h3><br>';
+            
+            // Analyze answers and generate personalized content
+            if (answers[0].includes(2) || answers[0].includes(3)) {
+                recommendation += '<p>⚠️ Your reported eye strain levels suggest you might benefit from regular breaks and proper eye care routines.</p><br>';
+            }
+
+            if (answers[4].length > 0 && !answers[4].includes(4)) {
+                recommendation += '<p>🏥 Based on your reported symptoms, we recommend scheduling a comprehensive eye examination.</p><br>';
+            }
+
+            if (answers[6].includes(0)) {
+                recommendation += '<p>💻 Consider implementing the 20-20-20 rule: Every 20 minutes, look at something 20 feet away for 20 seconds.</p><br>';
+            }
+
+            if (answers[8].includes(0)) {
+                recommendation += '<p>👪 Given your family history of eye diseases, regular monitoring and early detection are crucial.</p><br>';
+            }
+
+            recommendation += '<p>📋 Next Steps:</p>';
+            recommendation += '<ul style="list-style: none; padding: 1rem;">';
+            recommendation += '<li>✅ Schedule a comprehensive eye examination</li>';
+            recommendation += '<li>✅ Discuss your specific concerns with an eye care professional</li>';
+            recommendation += '<li>✅ Get personalized advice for your eye care routine</li>';
+            recommendation += '</ul>';
+
+            return recommendation;
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        }
+
+        // Redirect to form
+        function redirectToForm() {
+            // Replace with your form URL
+            window.location.href = "https://your-form-url.com";
+        }
+
+        // Initialize
+        document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
+        initQuestionnaire();
+
+        // Background animation
+        function createBackgroundAnimation() {
+            const canvas = document.createElement('canvas');
+            canvas.classList.add('background-animation');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 5 + 1,
+                    speedX: Math.random() * 2 - 1,
+                    speedY: Math.random() * 2 - 1
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = document.body.dataset.theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(43, 135, 255, 0.1)';
+                
+                particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+                    if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        createBackgroundAnimation();
+    </script>
+</body>
+</html>
