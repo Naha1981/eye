@@ -1,5 +1,7 @@
 <html><head><base href="https://demourl.com">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <style>
 /* Modern, clean styling */
 body {
@@ -188,6 +190,81 @@ input[type="email"] {
 
 .dark-mode-toggle svg {
   transition: all 0.3s ease;
+}
+
+/* Add these media queries and mobile-friendly styles to the existing CSS */
+
+/* Base responsive adjustments */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 10px;
+    width: auto;
+  }
+
+  .header h1 {
+    font-size: 1.8em;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .question {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .question h3 {
+    font-size: 1.1em;
+  }
+
+  .options {
+    gap: 8px;
+  }
+
+  .option {
+    font-size: 0.95em;
+  }
+}
+
+/* Small phones */
+@media screen and (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 12px;
+    margin: 5px;
+  }
+
+  .header h1 {
+    font-size: 1.5em;
+  }
+
+  .header p {
+    font-size: 0.9em;
+  }
+
+  .dark-mode-toggle {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .assessment-result {
+    padding: 15px;
+    font-size: 0.9em;
+  }
 }
 </style>
 </head>
