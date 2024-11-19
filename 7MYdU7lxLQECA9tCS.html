@@ -1,0 +1,500 @@
+<html><head><base href="https://demourl.com">
+
+<style>
+/* Modern, clean styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f5f7fa;
+    color: #2d3748;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #4a5568;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #2d3748;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #4299e1;
+    outline: none;
+}
+
+.btn {
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background: #3182ce;
+}
+
+.assessment-result {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #ebf8ff;
+    display: none;
+}
+
+.cta-button {
+    background: #48bb78;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background: #38a169;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #718096;
+    font-size: 0.9em;
+}
+
+.required {
+    color: red;
+}
+
+/* Dark Mode Styles */
+:root {
+  --background-color: #f5f7fa;
+  --text-color: #2d3748;
+  --container-bg: white;
+  --question-bg: #f8fafc;
+  --input-border: #e2e8f0;
+  --assessment-bg: #ebf8ff;
+}
+
+body.dark-mode {
+  --background-color: #1a202c;
+  --text-color: #e2e8f0;
+  --container-bg: #2d3748;
+  --question-bg: #4a5568;
+  --input-border: #718096;
+  --assessment-bg: #2c5282;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+.container {
+  background: var(--container-bg);
+}
+
+.question {
+  background: var(--question-bg);
+}
+
+input[type="text"],
+input[type="email"] {
+  border-color: var(--input-border);
+  background: var(--container-bg);
+  color: var(--text-color);
+}
+
+.assessment-result {
+  background: var(--assessment-bg);
+}
+
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--container-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+.dark-mode-toggle svg {
+  transition: all 0.3s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>FREE Eye Assessment</h1>
+        <p>Complete this quick assessment to receive personalized eye care recommendations</p>
+    </div>
+
+    <form id="assessmentForm">
+        <div class="question">
+            <h3>Full Name <span class="required">*</span></h3>
+            <input type="text" id="fullName" required>
+        </div>
+
+        <div class="question">
+            <h3>Email Address <span class="required">*</span></h3>
+            <input type="email" id="email" required>
+        </div>
+
+        <div class="question">
+            <h3>What is your age?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="age" value="under18"> Under 18
+                </label>
+                <label class="option">
+                    <input type="radio" name="age" value="18-39"> 18-39
+                </label>
+                <label class="option">
+                    <input type="radio" name="age" value="40+"> 40 and above
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>How often do you experience eye strain?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="eyeStrain" value="rarely"> Rarely
+                </label>
+                <label class="option">
+                    <input type="radio" name="eyeStrain" value="sometimes"> Sometimes
+                </label>
+                <label class="option">
+                    <input type="radio" name="eyeStrain" value="often"> Often
+                </label>
+                <label class="option">
+                    <input type="radio" name="eyeStrain" value="always"> Always
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Do you currently wear prescription glasses or contact lenses?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="prescription" value="glasses"> Yes, glasses
+                </label>
+                <label class="option">
+                    <input type="radio" name="prescription" value="contacts"> Yes, contacts
+                </label>
+                <label class="option">
+                    <input type="radio" name="prescription" value="both"> Yes, both
+                </label>
+                <label class="option">
+                    <input type="radio" name="prescription" value="no"> No
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>How would you rate your current vision quality?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="visionQuality" value="excellent"> Excellent
+                </label>
+                <label class="option">
+                    <input type="radio" name="visionQuality" value="good"> Good
+                </label>
+                <label class="option">
+                    <input type="radio" name="visionQuality" value="fair"> Fair
+                </label>
+                <label class="option">
+                    <input type="radio" name="visionQuality" value="poor"> Poor
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Have you had an eye exam in the past year?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="pastExam" value="yes"> Yes
+                </label>
+                <label class="option">
+                    <input type="radio" name="pastExam" value="no"> No
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Do you experience any of the following symptoms? (Select all that apply)</h3>
+            <div class="checkbox-group">
+                <label class="option">
+                    <input type="checkbox" name="symptoms" value="blurred"> Blurred vision
+                </label>
+                <label class="option">
+                    <input type="checkbox" name="symptoms" value="headaches"> Headaches
+                </label>
+                <label class="option">
+                    <input type="checkbox" name="symptoms" value="dryEyes"> Dry eyes
+                </label>
+                <label class="option">
+                    <input type="checkbox" name="symptoms" value="double"> Double vision
+                </label>
+                <label class="option">
+                    <input type="checkbox" name="symptoms" value="none"> None of the above
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>How important is eye health to you?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="importance" value="low"> 1-3 (Not very important)
+                </label>
+                <label class="option">
+                    <input type="radio" name="importance" value="medium"> 4-6 (Somewhat important)
+                </label>
+                <label class="option">
+                    <input type="radio" name="importance" value="high"> 7-9 (Very important)
+                </label>
+                <label class="option">
+                    <input type="radio" name="importance" value="critical"> 10 (Extremely important)
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Do you spend more than 2 hours a day looking at screens?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="screenTime" value="yes"> Yes
+                </label>
+                <label class="option">
+                    <input type="radio" name="screenTime" value="no"> No
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Have you considered LASIK surgery?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="lasik" value="yes"> Yes
+                </label>
+                <label class="option">
+                    <input type="radio" name="lasik" value="no"> No
+                </label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Do you have a family history of eye diseases?</h3>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="familyHistory" value="yes"> Yes
+                </label>
+                <label class="option">
+                    <input type="radio" name="familyHistory" value="no"> No
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Generate Assessment</button>
+    </form>
+
+    <div id="assessmentResult" class="assessment-result">
+        <h2>Your Personalized Eye Care Assessment</h2>
+        <div id="recommendationText"></div>
+        <a href="mailto:naha.thabiso@gmail.com" class="btn cta-button">Schedule Your Eye Exam Now</a>
+    </div>
+
+    <div class="footer">
+        Powered By: NahaInc AI
+    </div>
+
+    <button id="darkModeToggle" class="dark-mode-toggle">
+      <svg class="light-mode-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="dark-mode-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+</div>
+
+<script>
+document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('fullName').value;
+    const eyeStrain = document.querySelector('input[name="eyeStrain"]:checked')?.value;
+    const age = document.querySelector('input[name="age"]:checked')?.value;
+    const prescription = document.querySelector('input[name="prescription"]:checked')?.value;
+    const visionQuality = document.querySelector('input[name="visionQuality"]:checked')?.value;
+    const screenTime = document.querySelector('input[name="screenTime"]:checked')?.value;
+    const familyHistory = document.querySelector('input[name="familyHistory"]:checked')?.value;
+
+    const symptoms = Array.from(document.querySelectorAll('input[name="symptoms"]:checked'))
+        .map(checkbox => checkbox.value);
+
+    // Generate personalized recommendations
+    let recommendations = `Dear ${name},\n\n`;
+    recommendations += "Based on your responses, here are your personalized recommendations:\n\n";
+
+    if (age === '40+') {
+        recommendations += "• Regular comprehensive eye exams are crucial at your age group\n";
+        recommendations += "• Consider reading glasses or progressive lenses\n";
+    }
+
+    if (eyeStrain === 'often' || eyeStrain === 'always') {
+        recommendations += "• Take regular breaks using the 20-20-20 rule\n";
+        recommendations += "• Consider computer glasses with blue light filtering\n";
+        recommendations += "• Adjust your screen brightness and position\n";
+    }
+
+    if (symptoms.length > 0 && !symptoms.includes('none')) {
+        recommendations += "\nBased on your symptoms:\n";
+        if (symptoms.includes('blurred')) {
+            recommendations += "• Schedule a comprehensive vision test\n";
+        }
+        if (symptoms.includes('headaches')) {
+            recommendations += "• Consider an eye strain assessment\n";
+        }
+        if (symptoms.includes('dryEyes')) {
+            recommendations += "• Use artificial tears and maintain proper humidity\n";
+        }
+        if (symptoms.includes('double')) {
+            recommendations += "• Immediate consultation recommended\n";
+        }
+    }
+
+    if (screenTime === 'yes') {
+        recommendations += "\nScreen Time Recommendations:\n";
+        recommendations += "• Use the 20-20-20 rule (every 20 minutes, look 20 feet away for 20 seconds)\n";
+        recommendations += "• Consider blue light filtering solutions\n";
+        recommendations += "• Maintain proper screen distance and positioning\n";
+    }
+
+    if (familyHistory === 'yes') {
+        recommendations += "\nDue to family history:\n";
+        recommendations += "• Regular comprehensive eye exams are crucial\n";
+        recommendations += "• Early detection screenings recommended\n";
+        recommendations += "• Maintain detailed health records\n";
+    }
+
+    recommendations += "\nGeneral Recommendations:\n";
+    recommendations += "• Maintain a healthy diet rich in vitamins A, C, and E\n";
+    recommendations += "• Protect your eyes from UV radiation\n";
+    recommendations += "• Stay hydrated and get adequate sleep\n";
+    recommendations += "• Regular exercise to maintain good eye health\n";
+
+    // Display results
+    document.getElementById('recommendationText').innerText = recommendations;
+    document.getElementById('assessmentResult').style.display = 'block';
+});
+
+// Dark mode functionality
+const darkModeToggle = document.getElementById('darkModeToggle');
+const lightModeIcon = document.querySelector('.light-mode-icon');
+const darkModeIcon = document.querySelector('.dark-mode-icon');
+
+// Check for saved user preference
+const darkMode = localStorage.getItem('darkMode');
+if (darkMode === 'enabled') {
+  document.body.classList.add('dark-mode');
+  lightModeIcon.style.display = 'none';
+  darkModeIcon.style.display = 'block';
+}
+
+darkModeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  
+  // Update icons
+  if (document.body.classList.contains('dark-mode')) {
+    lightModeIcon.style.display = 'none';
+    darkModeIcon.style.display = 'block';
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    lightModeIcon.style.display = 'block';
+    darkModeIcon.style.display = 'none';
+    localStorage.setItem('darkMode', null);
+  }
+});
+</script>
+
+</body></html>
